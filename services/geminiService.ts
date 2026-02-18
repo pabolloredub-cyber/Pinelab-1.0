@@ -1,8 +1,15 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Fixed: Correctly initialize GoogleGenAI with process.env.API_KEY as a direct named parameter
 export const generateProductDescription = async (productName: string, material: string) => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Inicialização local para evitar crash no carregamento do arquivo se process.env não existir
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
+  if (!apiKey) {
+    console.warn("API_KEY não encontrada. Verifique as configurações do ambiente.");
+    return "Descrição gerada automaticamente para o produto.";
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   try {
     const response = await ai.models.generateContent({
@@ -10,11 +17,9 @@ export const generateProductDescription = async (productName: string, material: 
       contents: `Escreva uma descrição de marketing curta e atraente para um produto impresso em 3D chamado "${productName}" feito de "${material}". Foque na qualidade da impressão e durabilidade.`,
       config: {
         temperature: 0.7,
-        // Fixed: Removed maxOutputTokens without thinkingBudget to avoid blocking responses
       }
     });
     
-    // Fixed: Access .text property directly (not a method)
     return response.text?.trim() || "Descrição gerada automaticamente para o produto.";
   } catch (error) {
     console.error("Gemini Error:", error);
@@ -23,7 +28,10 @@ export const generateProductDescription = async (productName: string, material: 
 };
 
 export const suggestPrintSettings = async (material: string) => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
+  if (!apiKey) return { nozzleTemp: "N/A", bedTemp: "N/A", notes: "API Key ausente." };
+
+  const ai = new GoogleGenAI({ apiKey });
   
   try {
     const response = await ai.models.generateContent({
@@ -53,7 +61,6 @@ export const suggestPrintSettings = async (material: string) => {
       }
     });
     
-    // Fixed: Access .text property directly
     return JSON.parse(response.text || "{}");
   } catch (error) {
     console.error("Gemini Error:", error);

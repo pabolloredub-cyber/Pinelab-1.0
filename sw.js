@@ -2,8 +2,8 @@
 const CACHE_NAME = 'pinelab-v1';
 const ASSETS = [
   './',
-  './index.html',
-  './manifest.json'
+  'index.html',
+  'manifest.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -15,9 +15,10 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Estratégia Network First para garantir que atualizações apareçam no deploy
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });
