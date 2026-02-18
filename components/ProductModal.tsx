@@ -1,9 +1,9 @@
 
 import React, { useState, useRef } from 'react';
-import { Product } from '../types';
-import { MATERIALS } from '../constants';
-import { Button } from './Button';
-import { generateProductDescription } from '../services/geminiService';
+import { Product } from '../types.ts';
+import { MATERIALS } from '../constants.ts';
+import { Button } from './Button.tsx';
+import { generateProductDescription } from '../services/geminiService.ts';
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -75,7 +75,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onS
                 onChange={handleFileChange} 
               />
             </div>
-            <p className="text-[10px] text-slate-400 uppercase font-bold">Dica: Você pode tirar uma foto direto da câmera do celular</p>
           </div>
 
           <div>
@@ -121,7 +120,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onS
                 disabled={isGenerating || !formData.name}
                 className="text-xs text-pinelab-dark font-bold flex items-center gap-1 hover:opacity-80 disabled:opacity-50"
               >
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.657 15.657a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM19.101 4.101a1 1 0 010 1.414l-9.493 9.493a1 1 0 01-1.414 0l-4.101-4.101a1 1 0 011.414-1.414l3.394 3.394 8.786-8.786a1 1 0 011.414 0z"></path></svg>
                 IA Descrição
               </button>
             </div>

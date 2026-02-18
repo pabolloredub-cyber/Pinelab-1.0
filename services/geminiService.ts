@@ -2,14 +2,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 export const generateProductDescription = async (productName: string, material: string) => {
-  // Inicialização local para evitar crash no carregamento do arquivo se process.env não existir
-  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
-  if (!apiKey) {
-    console.warn("API_KEY não encontrada. Verifique as configurações do ambiente.");
-    return "Descrição gerada automaticamente para o produto.";
-  }
-
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   try {
     const response = await ai.models.generateContent({
@@ -28,10 +21,7 @@ export const generateProductDescription = async (productName: string, material: 
 };
 
 export const suggestPrintSettings = async (material: string) => {
-  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
-  if (!apiKey) return { nozzleTemp: "N/A", bedTemp: "N/A", notes: "API Key ausente." };
-
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   try {
     const response = await ai.models.generateContent({
@@ -61,7 +51,8 @@ export const suggestPrintSettings = async (material: string) => {
       }
     });
     
-    return JSON.parse(response.text || "{}");
+    const text = response.text || "{}";
+    return JSON.parse(text);
   } catch (error) {
     console.error("Gemini Error:", error);
     return { nozzleTemp: "N/A", bedTemp: "N/A", notes: "Consulte o fabricante." };

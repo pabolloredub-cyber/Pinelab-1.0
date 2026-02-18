@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Layout } from './components/Layout';
-import { Product, QueueItem, PrintStatus, Printer } from './types';
-import { INITIAL_PRODUCTS } from './constants';
-import { Button } from './components/Button';
-import { ProductModal } from './components/ProductModal';
-import { PrinterModal } from './components/PrinterModal';
+import { Layout } from './components/Layout.tsx';
+import { Product, QueueItem, PrintStatus, Printer } from './types.ts';
+import { INITIAL_PRODUCTS } from './constants.ts';
+import { Button } from './components/Button.tsx';
+import { ProductModal } from './components/ProductModal.tsx';
+import { PrinterModal } from './components/PrinterModal.tsx';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'catalog' | 'queue' | 'printers'>('catalog');
@@ -341,7 +341,6 @@ const App: React.FC = () => {
                   const isTimeUp = remainingMs <= 0 && isPrinting;
 
                   return (
-                    /* Ajustado: z-index dinâmico (z-10 se dropdown estiver aberto) para sobrepor outros cards */
                     <div 
                       key={item.id} 
                       className={`bg-white p-5 rounded-2xl border transition-all flex flex-col md:flex-row items-center gap-6 shadow-sm relative ${isActiveDropdown ? 'z-20 ring-2 ring-pinelab-dark/10' : 'z-0'} ${isPrinting ? 'border-pinelab-dark ring-1 ring-pinelab-dark/20' : 'border-slate-200'}`}
@@ -410,7 +409,6 @@ const App: React.FC = () => {
                             </Button>
                             
                             {isActiveDropdown && (
-                              /* Ajustado: Shadow maior e z-index altíssimo para garantir sobreposição total */
                               <div className="absolute top-[calc(100%+12px)] right-0 w-64 bg-white border border-slate-200 p-3 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-[100] space-y-2 animate-in fade-in slide-in-from-top-4 duration-200">
                                 <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2 px-1">Escolha a Máquina</p>
                                 <div className="max-h-60 overflow-y-auto custom-scrollbar space-y-1">
