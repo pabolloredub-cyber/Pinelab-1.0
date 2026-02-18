@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Pinelab - Gestão de Impressão 3D",
+  "description": "Sistema profissional de catálogo e gestão de produção para a Pinelab, com assistência de IA.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
